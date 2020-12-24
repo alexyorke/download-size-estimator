@@ -1,4 +1,5 @@
 import requests
+import sys
 from random import shuffle
 
 # copied from https://github.com/shawnohare/samplesize/blob/master/samplesize.py
@@ -65,27 +66,7 @@ def sizeof_fmt(num, suffix='B'):
         num /= 1024.0
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
-urls = ["http://ipv4.download.thinkbroadband.com/1GB.zip", "http://ipv4.download.thinkbroadband.com/512MB.zip", "http://ipv4.download.thinkbroadband.com/200MB.zip",
-"http://ipv4.download.thinkbroadband.com/200MB.zip",
-"http://ipv4.download.thinkbroadband.com/200MB.zip",
-"http://ipv4.download.thinkbroadband.com/200MB.zip",
-"http://ipv4.download.thinkbroadband.com/200MB.zip",
-"http://ipv4.download.thinkbroadband.com/200MB.zip",
-"http://ipv4.download.thinkbroadband.com/200MB.zip",
-"http://ipv4.download.thinkbroadband.com/200MB.zip",
-"http://ipv4.download.thinkbroadband.com/200MB.zip",
-"http://ipv4.download.thinkbroadband.com/200MB.zip",
-"http://ipv4.download.thinkbroadband.com/200MB.zip",
-"http://ipv4.download.thinkbroadband.com/200MB.zip",
-"http://ipv4.download.thinkbroadband.com/200MB.zip",
-"http://ipv4.download.thinkbroadband.com/200MB.zip",
-"http://ipv4.download.thinkbroadband.com/200MB.zip",
-"http://ipv4.download.thinkbroadband.com/200MB.zip",
-"http://ipv4.download.thinkbroadband.com/200MB.zip",
-"http://ipv4.download.thinkbroadband.com/200MB.zip",
-"http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip","http://ipv4.download.thinkbroadband.com/200MB.zip",
-"http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip","http://ipv4.download.thinkbroadband.com/1GB.zip",]
-
+urls = sys.stdin.readlines()
 sizes = []
 
 shuffle(urls)
