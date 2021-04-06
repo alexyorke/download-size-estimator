@@ -1,8 +1,11 @@
 import requests
 import sys
 from random import shuffle
+import re
 
 # copied from https://github.com/shawnohare/samplesize/blob/master/samplesize.py
+
+
 def sampleSize(
     population_size,
     margin_error=.05,
@@ -59,25 +62,48 @@ def sampleSize(
     denom = M**2 + ((z**2 * sigma**2)/(N-1))
     return numerator/denom
 
+
 def sizeof_fmt(num, suffix='B'):
-    for unit in ['','Ki','Mi','Gi','Ti','Pi','Ei','Zi']:
+    for unit in ['', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi']:
         if abs(num) < 1024.0:
             return "%3.1f%s%s" % (num, unit, suffix)
         num /= 1024.0
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
-urls = sys.stdin.readlines()
+
+margin_error = 0.05
+confidence_level = 0.95
+
+# remove all lines that are just whitespace
+urls = [line.strip() for line in filter(
+    lambda x: not re.match(r'^\s*$', x), sys.stdin.readlines())]
 sizes = []
 
 shuffle(urls)
-url_sample = urls[0:int(sampleSize(len(urls)))]
-for url in url_sample:
-  response = requests.head(url, allow_redirects=True)
+sample_size_needed = int(sampleSize(len(urls)))
 
-  size = int(response.headers.get('content-length', -1))
-  if (size >= 0):
-    sizes.append(size)
+i = 0
+while (len(sizes) < sample_size_needed) and (i < len(urls)):
+    url = urls[i]
+    try:
+        response = requests.head(url, allow_redirects=True)
 
-error = 0.05
+        size = int(response.headers.get('content-length', -1))
+        if (size >= 0):
+            sizes.append(size)
+        else:
+            print("Warning: ignoring " + url +
+                  " because it didn't have a content-length header")
+    except requests.exceptions.RequestException as e:
+        print("Warning: " + url + " couldn't be reached")
+    finally:
+        i = i + 1
+
+if len(sizes) < sample_size_needed:
+    print("The sample size was " + str(sample_size_needed) + ", but there were only " +
+          str(len(sizes)) + " valid URLs with valid content-sizes or URLs that could be reached")
+    exit(1)
+
 avg = sum(sizes)/len(sizes)
-print(sizeof_fmt(avg) + "±" + sizeof_fmt((avg * error) / 2) + " (95% conf., 5% error)")
+print(sizeof_fmt(avg) + "±" + sizeof_fmt((avg * margin_error) / 2) + " (" +
+      str(int(confidence_level * 100)) + "% conf., " + str(int(margin_error * 100)) + "% error)")
