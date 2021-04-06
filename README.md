@@ -8,6 +8,6 @@ Ever need to download a set of files but don't know how large the files are, jus
 - Install requirements from `requirements.txt`
 
 ```bash
-alex@DESKTOP-2BT8H8S:~$ echo -e https://dummyimage.com/400x{400..450}/999/fff.jpg\\n | python3 download-size-estimator.py
+alex@computer:~$ echo -e https://dummyimage.com/400x{400..450}/999/fff.jpg\\n | python3 download-size-estimator.py
 4.8KiB±121.7B (95% conf., 5% error)
 ```
